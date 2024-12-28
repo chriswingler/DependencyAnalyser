@@ -13,13 +13,13 @@ struct DEPENDENCYANALYSER_API FAssetLimit
 	GENERATED_BODY()
 
 	// Dependencies disk size limit in MB
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Settings")
 	int32 DiskSizeLimit = 0;
 	// Dependencies memory size limit in MB
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Settings")
 	int32 MemorySizeLimit = 0;
 	// Dependencies reference count
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Settings")
 	int32 ReferenceCountLimit = 0;
 };
 
@@ -32,7 +32,7 @@ class DEPENDENCYANALYSER_API UDependencyAnalyserTestSettings : public UObject
 public:
 	// A list of asset types to analyse - leave empty to analyse all assets (might be slow!)
 	UPROPERTY(EditAnywhere, config, Category="Settings")
-	TArray<UClass*> OnlyAnalyseAssetTypes = { UBlueprint::StaticClass() };
+	TArray<TObjectPtr<UClass>> OnlyAnalyseAssetTypes = { UBlueprint::StaticClass() };
 	
 	// Whether to include memory size calculation
 	UPROPERTY(EditAnywhere, config, Category="Settings")
@@ -56,11 +56,11 @@ public:
 
 	// A list of warning sizes and reference counts per asset type that will be used instead of default
 	UPROPERTY(EditAnywhere, config, Category="Type Limits")
-	TMap<UClass*, FAssetLimit> WarningLimitsPerAssetType;
+	TMap<TObjectPtr<UClass>, FAssetLimit> WarningLimitsPerAssetType;
 	
 	// A list of error sizes and reference counts per asset type that will be used instead of default 
 	UPROPERTY(EditAnywhere, config, Category="Type Limits")
-	TMap<UClass*, FAssetLimit> ErrorLimitsPerAssetType;
+	TMap<TObjectPtr<UClass>, FAssetLimit> ErrorLimitsPerAssetType;
 	
 	// Whether a test should fail in case a warning is thrown
 	UPROPERTY(EditAnywhere, config, Category="Automated Testing")
